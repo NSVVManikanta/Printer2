@@ -1,0 +1,171 @@
+openapi: "3.0.0"
+info:
+  title: Printer Group  API
+  description: THE API WHICH WIll PERFORM PRINTER GROUP CRUD OPERATIONS.
+  version: 1.0.0
+
+tags: 
+ name: PrinterGroup
+
+paths:
+  /createPrinter:
+    post:
+      summary: Create Printer!
+      tags: [PrinterGroup]
+      description: Create A Printer.      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  printType:
+                    type: integer
+                    enum:
+                      - 1
+                      - 2 
+                  activeStatus:
+                    type: boolean    
+                  triggers:    
+                    type: array 
+                    items: 
+                      type: object 
+                    properties:
+                    trigger:
+                      type: integer
+                      enum:
+                        - 1
+                        - 2
+                        - 3
+                    orderType:
+                      type: integer
+                      enum:
+                        - 1
+                        - 2            
+      responses:
+        200:
+          description: The Trigger is Created!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  printType:
+                    type: integer
+                  activeStatus:
+                    type: string  
+  /printer/:printerId:
+    put:
+      summary: Update Printer!
+      tags: [PrinterGroup]
+      description: Update A Printer.
+      parameters:
+        - in: path
+          name: printerId
+          schema:
+            type: integer
+          required: true  
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string 
+                printType:
+                  type: integer
+                  enum:
+                    - 1
+                    - 2
+                activeStatus:
+                  type: boolean         
+      responses:
+        200:
+          description: The Printer is updated!
+          content:
+            application/json:
+              schema:
+              type: string  
+  /printerTrigger/:printerId:
+    put:
+      summary: Update Trigger!
+      tags: [PrinterGroup]
+      description: Update An Triggers.
+      parameters:
+        - in: path
+          name: printerId
+          schema:
+            type: integer
+          required: true  
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                trigger:
+                  type: integer
+                  enum:
+                    - 1
+                    - 2
+                    - 3
+                orderType:
+                  type: integer
+                  enum:
+                    - 1
+                    - 2      
+      responses:
+        200:
+          description: The Trigger is updated!
+          content:
+            application/json:
+              schema:
+              type: string
+  /printerList:
+    get:
+      summary: Get Printers!
+      tags: [PrinterGroup]
+      description: Get All Printers with Triggers.      
+      responses:
+        200:
+          description: The Trigger List Is!
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  printType:
+                    type: integer
+                  activeStatus:
+                    type: boolean   
+                  triggers:    
+                    type: array 
+                    items: 
+                      type: object 
+                    properties:
+                    trigger:
+                      type: integer
+                    orderType:
+                      type: integer
