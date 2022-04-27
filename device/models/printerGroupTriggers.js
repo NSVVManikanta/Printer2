@@ -17,31 +17,33 @@ const printerGroupTriggers= sequelize.define(
     },
     trigger:{
         type : Sequelize.ENUM(1,2,3),
-        allowNull : true,
+        allowNull : false,
         field:'c3',
     },
     orderType:{
         type : Sequelize.ENUM(1,2),
+        allowNull : false,
         field:'c4', 
     },
     createdAt:{
         type: Sequelize.INTEGER,
-        allowNull : false,
+        allowNull : true,
         field:'c5',
     },
     updatedAt:{
         type: Sequelize.INTEGER,
-        allowNull : false,
+        allowNull : true,
         field:'c6',
     },
     createdBy:{
         type: Sequelize.INTEGER,
-        allowNull : false,
+        allowNull : true,
         field:'c7',
+        defaultValue: 1
     },
     updatedBy:{
         type: Sequelize.INTEGER,
-        allowNull : false,
+        allowNull : true,
         field:'c8',
     },
 },
@@ -49,14 +51,19 @@ const printerGroupTriggers= sequelize.define(
 tableName: 't110',
 hasTrigger: true,
 hooks: {
-    beforeCreate(printerGroupObject, options){
-        if(!printerGroupObject) 
-        return printerGroupObject.createdAt = commonHelper.getTimeStamp();
-    },
-    beforeUpdate(printerGroupObject, options){
-        if(!printerGroupObject) 
-        return printerGroupObject.updatedAt = commonHelper.getTimeStamp();
-    },
+    // beforeValidate(printerGroupObject, options){
+    //     if(printerGroupObject) 
+    //     return printerGroupObject.createdAt =commonHelper.getTimeStamp();
+    // },
+    // beforeBulkCreate(printerGroupObject, options){
+    //     if(printerGroupObject) 
+    //     return printerGroupObject.createdAt =commonHelper.getTimeStamp();
+    // },
+    
+    // beforeValidate(printerGroupObject, options){
+    //     if(!printerGroupObject) 
+    //     return printerGroupObject.updatedAt =commonHelper.getTimeStamp();
+    // },
   },
 },
 );
@@ -65,3 +72,4 @@ printerGroupTriggers.associate = function(models){
 }
 return printerGroupTriggers
 }
+
