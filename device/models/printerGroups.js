@@ -1,4 +1,5 @@
 
+
 var  commonHelper = require('../../Helper');
 module.exports = (sequelize,DataTypes)=>{
 const printerGroups= sequelize.define(
@@ -11,7 +12,7 @@ const printerGroups= sequelize.define(
     },
     title:{
         type : DataTypes.STRING,
-        allowNull : false,
+        allowNull : true,
         field:'c2',
     },
     description:{
@@ -21,10 +22,12 @@ const printerGroups= sequelize.define(
     },
     printType:{
         type : DataTypes.ENUM(1,2),
+        allowNull : false,
         field:'c4', 
     },
     printerCount:{
         type : DataTypes.INTEGER,
+        allowNull : true,
         field:'c5',
     },
     createdAt:{
@@ -39,7 +42,8 @@ const printerGroups= sequelize.define(
     },
     createdBy:{
         type: DataTypes.INTEGER,
-        allowNull : true,
+        allowNull : false,
+        defaultValue: 1,
         field:'c8',
     },
     updatedBy:{
@@ -49,7 +53,7 @@ const printerGroups= sequelize.define(
     },
     activeStatus:{
         type : DataTypes.BOOLEAN,
-        allowNull : false,
+        allowNull : true,
         field:'c10',
     },
    
@@ -58,21 +62,19 @@ const printerGroups= sequelize.define(
 tableName: 't109',
 hasTrigger: true,
 hooks: {
-    beforeCreate(printerGroupObject, options){
-        if(!printerGroupObject) 
+    beforeValidate(printerGroupObject, options){
+        if(printerGroupObject) 
         return printerGroupObject.createdAt =commonHelper.getTimeStamp();
     },
-    beforeUpdate(printerGroupObject, options){
-        if(!printerGroupObject) 
-        return printerGroupObject.updatedAt =commonHelper.getTimeStamp();
-    },
+    // beforeValidate(printerGroupObject, options){
+    //     if(!printerGroupObject) 
+    //     return printerGroupObject.updatedAt =commonHelper.getTimeStamp();
+    // },
   },
 },
 );
 printerGroups.associate = function(models){
     printerGroups.hasMany(models.PrinterGroupTriggers,{foreignKey:"printerGroupId"})
 }
-// printerGroups.hasMany(printerGroupTriggers,{ foreignKey: 'printerGroupId' });
-// printerGroupTriggers.belongsTo(printerGroups);
 return printerGroups;
 }
