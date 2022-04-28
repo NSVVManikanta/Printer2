@@ -27,7 +27,6 @@ const printerGroupTriggers= sequelize.define(
     },
     createdAt:{
         type: Sequelize.INTEGER,
-        allowNull : true,
         field:'c5',
     },
     updatedAt:{
@@ -49,22 +48,36 @@ const printerGroupTriggers= sequelize.define(
 },
 {
 tableName: 't110',
-hasTrigger: true,
+// hasTrigger: true,
 hooks: {
-    // beforeValidate(printerGroupObject, options){
-    //     if(printerGroupObject) 
-    //     return printerGroupObject.createdAt =commonHelper.getTimeStamp();
-    // },
+    beforeBulkCreate: function(printerGroupObject, options) {
+        return printerGroupObject.map((printer) => {
+             printer.createdAt = commonHelper.getTimeStamp();
+            return printer;
+          })
+    },
+    beforeUpdate: function(printerGroupObject, options) {
+         return   printerGroupObject.updatedAt = commonHelper.getTimeStamp();
+    },
+}
+// hooks: {
+//     beforeValidate(printerGroupObject, options){
+//         if(printerGroupObject) 
+//         return printerGroupObject.createdAt =commonHelper.getTimeStamp();
+//     },
     // beforeBulkCreate(printerGroupObject, options){
     //     if(printerGroupObject) 
     //     return printerGroupObject.createdAt =commonHelper.getTimeStamp();
     // },
+    //    beforeBulkCreate: function (printerGroupObject,options) {
+    //         return printerGroupObject.createdAt =commonHelper.getTimeStamp();
+    //    }
     
     // beforeValidate(printerGroupObject, options){
     //     if(!printerGroupObject) 
     //     return printerGroupObject.updatedAt =commonHelper.getTimeStamp();
     // },
-  },
+//   },
 },
 );
 printerGroupTriggers.associate = function(models){
@@ -72,4 +85,3 @@ printerGroupTriggers.associate = function(models){
 }
 return printerGroupTriggers
 }
-
