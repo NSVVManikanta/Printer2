@@ -32,7 +32,6 @@ const printerGroups= sequelize.define(
     },
     createdAt:{
         type: DataTypes.INTEGER,
-        allowNull : false,
         field:'c6',
     },
     updatedAt:{
@@ -60,21 +59,50 @@ const printerGroups= sequelize.define(
 },
 {
 tableName: 't109',
-hasTrigger: true,
+// hasTrigger: true,
 hooks: {
-    beforeValidate(printerGroupObject, options){
+     beforeCreate(printerGroupObject, options){
+            if(printerGroupObject) 
+         return printerGroupObject.createdAt =commonHelper.getTimeStamp();
+     },
+     beforeUpdate(printerGroupObject,options){
         if(printerGroupObject) 
-        return printerGroupObject.createdAt =commonHelper.getTimeStamp();
-    },
-    // beforeValidate(printerGroupObject, options){
-    //     if(!printerGroupObject) 
-    //     return printerGroupObject.updatedAt =commonHelper.getTimeStamp();
-    // },
-  },
-},
+        return printerGroupObject.updatedAt =commonHelper.getTimeStamp();
+     }
+//     beforeCreate(printerGroupObject, options){
+//         return printerGroupObject.createdAt =commonHelper.getTimeStamp();
+//     },
+//     beforeBulkUpdate: function(printerGroupObject, options) {
+//         return   printerGroupObject.updatedAt = commonHelper.getTimeStamp();
+//    },
+
+}
+//   },
+    //  hooks: {
+    //     beforeCreate : (record, options) => {
+    //         console.log(record,"beforeCreate");
+    //         record.dataValues.createdAt = commonHelper.getTimeStamp();
+
+    //     },
+    //     beforeUpdate : (record, options) => {
+    //         record.dataValues.updatedAt = commonHelper.getTimeStamp();
+    //     }
+        // beforeValidate(printerGroupObject, options){
+        //     if(printerGroupObject) {
+        //     let createdAt = printerGroupObject.createdAt =commonHelper.getTimeStamp();
+        //     let updatedAt = printerGroupObject.updatedAt =commonHelper.getTimeStamp();
+        //     return {createdAt,updatedAt};
+        //     }
+        // },
+    //   },
+}
 );
+// printerGroups.beforeCreate(printerGroup => {
+//    console.log(printerGroup,"create!");
+//   });
 printerGroups.associate = function(models){
     printerGroups.hasMany(models.PrinterGroupTriggers,{foreignKey:"printerGroupId"})
 }
 return printerGroups;
 }
+
